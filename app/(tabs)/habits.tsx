@@ -1,32 +1,45 @@
-// app/(tabs)/habits.tsx (Vista 2: Hábitos)
 import React from 'react';
-import { ScrollView, Text, StyleSheet } from 'react-native';
-import { useHabits } from '../../src/hooks/useHabits';
-import { HabitCard } from '../../src/components/HabitCard';
+import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { useHabits } from '../src/hooks/useHabits';
+import { HabitCard } from '../src/components/HabitCard';
 
-export default function HabitsListScreen() {
-  const { habits, isCompleted, toggleHabitDay } = useHabits();
+export default function HabitsScreen() {
+  const { habits, isDark, toggleHabit } = useHabits();
+  const bg = isDark ? '#0F172A' : '#F8FAFC';
+  const txtPrimary = isDark ? '#F8FAFC' : '#0F172A';
+  const txtMuted = isDark ? '#94A3B8' : '#64748B';
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.headerTitle}>Gestión de Hábitos 📋</Text>
-      <Text style={styles.subtitle}>Listado oficial de hábitos para tu reto de 21 días.</Text>
-      
-      {habits.map((habit) => (
-        <HabitCard
-          key={habit.id}
-          habit={habit}
-          currentDay={1}
-          isCompleted={isCompleted(habit.id, 1)}
-          onToggle={() => toggleHabitDay(habit.id, 1)}
-        />
-      ))}
-    </ScrollView>
+    <View style={[styles.container, { backgroundColor: bg }]}>
+      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+        <View style={styles.header}>
+          <Text style={[styles.title, { color: txtPrimary }]}>✨ Mis Hábitos</Text>
+          <Text style={[styles.subtitle, { color: txtMuted }]}>
+            Todos los hábitos del Reto 21 Días
+          </Text>
+        </View>
+
+        {habits.map((habit) => (
+          <View key={habit.id} style={{ marginBottom: 6 }}>
+            <Text style={styles.category}>🏷️ Categoría: {habit.category}</Text>
+            <HabitCard 
+              habit={habit} 
+              isDark={isDark} 
+              onToggle={toggleHabit} 
+              showStreak 
+            />
+          </View>
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB', padding: 16 },
-  headerTitle: { fontSize: 24, fontWeight: 'bold', color: '#1F2937', marginTop: 40, marginBottom: 4 },
-  subtitle: { fontSize: 14, color: '#6B7280', marginBottom: 16 },
+  container: { flex: 1 },
+  scroll: { padding: 20, paddingBottom: 35 },
+  header: { marginBottom: 16 },
+  title: { fontSize: 26, fontWeight: '900' },
+  subtitle: { fontSize: 14, marginTop: 2 },
+  category: { fontSize: 12, fontWeight: '700', color: '#10B981', marginBottom: 6, marginLeft: 4 },
 });
