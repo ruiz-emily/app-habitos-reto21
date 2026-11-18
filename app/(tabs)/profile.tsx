@@ -1,3 +1,4 @@
+// app/(tabs)/profile.tsx (Vista 4: Perfil / Ajustes)
 import React from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { MenuItem } from '../../src/components/MenuItem';

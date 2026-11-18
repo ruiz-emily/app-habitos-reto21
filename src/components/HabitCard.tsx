@@ -1,3 +1,4 @@
+// src/components/HabitCard.tsx
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Habit } from '../constants/habitsData';

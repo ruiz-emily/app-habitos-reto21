@@ -1,3 +1,4 @@
+// src/hooks/useHabits.ts
 import { useState } from 'react';
 import { INITIAL_HABITS, Habit } from '../constants/habitsData';
 

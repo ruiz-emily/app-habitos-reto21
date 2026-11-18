@@ -1,3 +1,4 @@
+// app/(tabs)/progress.tsx (Vista 3: Progreso)
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useHabits } from '../../src/hooks/useHabits';
@@ -8,7 +9,7 @@ export default function ProgressScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>Estadísticas del Reto</Text>
+      <Text style={styles.headerTitle}>Estadísticas de Progreso</Text>
       <ProgressCard progress={calculateProgress()} />
       <Text style={styles.infoText}>Continúa marcando tus hábitos diariamente para completar con éxito tu meta de 21 días.</Text>
     </View>
