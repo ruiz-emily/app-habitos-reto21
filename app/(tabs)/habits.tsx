@@ -1,45 +1,38 @@
 import React from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import { useHabits } from '../src/hooks/useHabits';
-import { HabitCard } from '../src/components/HabitCard';
+import { ScrollView, StyleSheet } from 'react-native';
+import { Stack } from 'expo-router';
+import { useHabits } from '../../src/hooks/useHabits';
+import { ThemedView } from '../../src/components/ThemedView';
+import { ThemedText } from '../../src/components/ThemedText';
+import { HabitCard } from '../../src/components/HabitCard';
 
 export default function HabitsScreen() {
-  const { habits, isDark, toggleHabit } = useHabits();
-  const bg = isDark ? '#0F172A' : '#F8FAFC';
-  const txtPrimary = isDark ? '#F8FAFC' : '#0F172A';
-  const txtMuted = isDark ? '#94A3B8' : '#64748B';
+  const { habits, selectedDay, colors, toggleHabit } = useHabits();
 
   return (
-    <View style={[styles.container, { backgroundColor: bg }]}>
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: txtPrimary }]}>✨ Mis Hábitos</Text>
-          <Text style={[styles.subtitle, { color: txtMuted }]}>
-            Todos los hábitos del Reto 21 Días
-          </Text>
-        </View>
+    <ThemedView colors={colors}>
+      <Stack.Screen options={{ title: 'Hábitos' }} />
+      <ScrollView contentContainerStyle={styles.container}>
+        <ThemedText colors={colors} title>Mis Hábitos</ThemedText>
+        <ThemedText colors={colors} muted style={styles.sub}>
+          Toca para marcar o desmarcar en el Día {selectedDay}
+        </ThemedText>
 
         {habits.map((habit) => (
-          <View key={habit.id} style={{ marginBottom: 6 }}>
-            <Text style={styles.category}>🏷️ Categoría: {habit.category}</Text>
-            <HabitCard 
-              habit={habit} 
-              isDark={isDark} 
-              onToggle={toggleHabit} 
-              showStreak 
-            />
-          </View>
+          <HabitCard
+            key={habit.id}
+            habit={habit}
+            completed={habit.completedDays.includes(selectedDay)}
+            colors={colors}
+            onPress={() => toggleHabit(habit.id)}
+          />
         ))}
       </ScrollView>
-    </View>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  scroll: { padding: 20, paddingBottom: 35 },
-  header: { marginBottom: 16 },
-  title: { fontSize: 26, fontWeight: '900' },
-  subtitle: { fontSize: 14, marginTop: 2 },
-  category: { fontSize: 12, fontWeight: '700', color: '#10B981', marginBottom: 6, marginLeft: 4 },
+  container: { padding: 16 },
+  sub: { marginTop: 4, marginBottom: 14 },
 });
